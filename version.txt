@@ -1,0 +1,6 @@
+I am using this notepad till I learn git for version control:
+
+------------22-04-2025----------
+1. Added dice thrower for making random decision like which snack to order etc.
+2. Added .exe file
+3. added version tracker filed
