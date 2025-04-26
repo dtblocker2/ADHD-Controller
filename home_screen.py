@@ -4,6 +4,10 @@ from PyQt6.QtCore import QSize, Qt
 from dice_screen import DiceScreen
 from placeholder_screen import PlaceholderScreen
 from utils import create_icon_button
+import os
+
+#gives out base directory of the file so that any python interpretor can file assets file with absolute location
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 class HomeScreen(QWidget):
     def __init__(self, main_window):
@@ -11,13 +15,13 @@ class HomeScreen(QWidget):
         self.main_window = main_window
         self.layout = QVBoxLayout()
         self.setLayout(self.layout)
-
+        feature_icon_directory = os.path.join(BASE_DIR, "assets/")
         features = [
-            ("Dice", "assets/dice_icon.png", self.load_dice_screen),
-            ("Account", "assets/account_icon.png", self.load_placeholder_screen),
-            ("Money", "assets/money_icon.png", self.load_placeholder_screen),
-            ("Calendar", "assets/calendar_icon.png", self.load_placeholder_screen),
-            ("Notepad", "assets/notepad_icon.png", self.load_placeholder_screen)
+            ("Dice", feature_icon_directory+"dice_icon.png", self.load_dice_screen),
+            ("Account", feature_icon_directory+"account_icon.png", self.load_placeholder_screen),
+            ("Money", feature_icon_directory+"money_icon.png", self.load_placeholder_screen),
+            ("Calendar", feature_icon_directory+"calendar_icon.png", self.load_placeholder_screen),
+            ("Notepad", feature_icon_directory+"notepad_icon.png", self.load_placeholder_screen)
         ]
 
         for text, icon_path, action in features:
