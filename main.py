@@ -9,7 +9,7 @@ class Window(QWidget):
         self.setWindowTitle("ADHD Controller")
         self.setGeometry(100,100,500,500)
         self.setWindowIcon(QIcon('app_icon.ico'))
-        self.setStyleSheet("background-color: #ffffff; font-family: Arial; font-size: 14px;")
+        self.setStyleSheet("font-family: Arial; font-size: 12px;")
 
         # Main Layout
         self.main_layout = QVBoxLayout()

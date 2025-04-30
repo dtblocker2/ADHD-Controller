@@ -1,109 +1,87 @@
-from PyQt6 import QtWidgets, QtCore, QtGui
-from PyQt6.QtWidgets import QWidget
+from PyQt6 import QtCore, QtGui, QtWidgets
+from PyQt6.QtWidgets import QWidget, QLabel, QPushButton, QLineEdit, QComboBox, QScrollArea, QProgressBar, QFormLayout
+from PyQt6.QtGui import QFont
+from PyQt6.QtCore import Qt
+import sys
 
 class MoneyScreen(QWidget):
-    def __init__(self, main_window=None):  # Accept main_window if needed later
-        super().__init__()
-
+    def __init__(self, parent=None):
+        super().__init__(parent)
         self.setObjectName("MoneyScreen")
-        self.resize(800, 600)
+        self.main_window = parent
+        if parent is not None:
+            self.main_window.resize(1000, 600)
 
-        self.title_label = QtWidgets.QLabel(self)
+        self.title_label = QLabel("Money Tracker", self)
         self.title_label.setGeometry(QtCore.QRect(30, 10, 739, 78))
-        font = QtGui.QFont()
-        font.setFamily("Calibri")
-        font.setPointSize(20)
-        self.title_label.setFont(font)
-        self.title_label.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
-        self.title_label.setObjectName("title_label")
+        self.title_label.setStyleSheet("font-size: 40px;")
+        self.title_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
-        self.pushButton = QtWidgets.QPushButton(self)
-        self.pushButton.setGeometry(QtCore.QRect(350, 130, 93, 28))
-        self.pushButton.setObjectName("pushButton")
+        self.label = QLabel("Transaction:", self)
+        self.label.setGeometry(30, 90, 91, 21)
 
-        self.label = QtWidgets.QLabel(self)
-        self.label.setGeometry(QtCore.QRect(30, 90, 91, 21))
-        self.label.setObjectName("label")
+        self.lineEdit = QLineEdit(self)
+        self.lineEdit.setGeometry(30, 130, 113, 22)
+        self.lineEdit.setPlaceholderText("enter amount")
 
-        self.lineEdit = QtWidgets.QLineEdit(self)
-        self.lineEdit.setGeometry(QtCore.QRect(30, 130, 113, 22))
-        self.lineEdit.setObjectName("lineEdit")
+        self.comboBox = QComboBox(self)
+        self.comboBox.setGeometry(190, 130, 131, 22)
+        self.comboBox.addItems(["Bank Account", "Wallet"])
 
-        self.label_2 = QtWidgets.QLabel(self)
-        self.label_2.setGeometry(QtCore.QRect(660, 130, 121, 41))
-        self.label_2.setObjectName("label_2")
+        self.label_3 = QLabel("Account Used:", self)
+        self.label_3.setGeometry(190, 80, 91, 31)
 
-        self.scrollArea = QtWidgets.QScrollArea(self)
-        self.scrollArea.setGeometry(QtCore.QRect(590, 190, 181, 311))
+        self.pushButton = QPushButton("Submit", self)
+        self.pushButton.setGeometry(350, 130, 93, 28)
+
+        self.label_2 = QLabel("Transaction History", self)
+        self.label_2.setGeometry(660, 130, 121, 41)
+
+        self.scrollArea = QScrollArea(self)
+        self.scrollArea.setGeometry(590, 190, 181, 311)
         self.scrollArea.setWidgetResizable(True)
-        self.scrollArea.setObjectName("scrollArea")
-
-        self.scrollAreaWidgetContents = QtWidgets.QWidget()
+        self.scrollAreaWidgetContents = QWidget()
         self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 179, 309))
-        self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
-
         self.scrollArea.setWidget(self.scrollAreaWidgetContents)
 
-        self.label_3 = QtWidgets.QLabel(self)
-        self.label_3.setGeometry(QtCore.QRect(190, 80, 91, 31))
-        self.label_3.setObjectName("label_3")
+        text_label = QLabel()
+        text_label.setText("This is a long message.\n" * 50)  # Repeat text to demonstrate scrolling
+        text_label.setWordWrap(True)
+        self.scrollArea.setWidget(text_label)
 
-        self.comboBox = QtWidgets.QComboBox(self)
-        self.comboBox.setGeometry(QtCore.QRect(190, 130, 131, 22))
-        self.comboBox.setObjectName("comboBox")
-        self.comboBox.addItem("")
-        self.comboBox.addItem("")
+        self.label_4 = QLabel("Total Money Left:", self)
+        self.label_4.setGeometry(30, 295, 111, 31)
 
-        self.label_4 = QtWidgets.QLabel(self)
-        self.label_4.setGeometry(QtCore.QRect(30, 295, 111, 31))
-        self.label_4.setObjectName("label_4")
+        self.label_5 = QLabel("Bank", self)
+        self.label_5.setGeometry(30, 340, 55, 16)
 
-        self.label_5 = QtWidgets.QLabel(self)
-        self.label_5.setGeometry(QtCore.QRect(30, 340, 55, 16))
-        self.label_5.setObjectName("label_5")
+        self.label_6 = QLabel("Wallet", self)
+        self.label_6.setGeometry(30, 380, 55, 16)
 
-        self.label_6 = QtWidgets.QLabel(self)
-        self.label_6.setGeometry(QtCore.QRect(30, 380, 55, 16))
-        self.label_6.setObjectName("label_6")
+        self.label_8 = QLabel(": 0", self)
+        self.label_8.setGeometry(110, 340, 55, 16)
 
-        self.label_7 = QtWidgets.QLabel(self)
-        self.label_7.setGeometry(QtCore.QRect(10, 480, 61, 21))
-        self.label_7.setObjectName("label_7")
+        self.label_9 = QLabel(": 0", self)
+        self.label_9.setGeometry(110, 380, 55, 16)
 
-        self.pushButton_2 = QtWidgets.QPushButton(self)
-        self.pushButton_2.setGeometry(QtCore.QRect(70, 480, 93, 28))
-        self.pushButton_2.setObjectName("pushButton_2")
+        self.label_7 = QLabel("Target:", self)
+        self.label_7.setGeometry(10, 480, 61, 21)
 
-        self.progressBar = QtWidgets.QProgressBar(self)
-        self.progressBar.setGeometry(QtCore.QRect(200, 480, 118, 23))
-        self.progressBar.setProperty("value", 24)
-        self.progressBar.setObjectName("progressBar")
+        self.pushButton_2 = QPushButton("Change Target", self)
+        self.pushButton_2.setGeometry(70, 480, 93, 28)
 
-        self.label_8 = QtWidgets.QLabel(self)
-        self.label_8.setGeometry(QtCore.QRect(110, 340, 55, 16))
-        self.label_8.setObjectName("label_8")
+        self.progressBar = QProgressBar(self)
+        self.progressBar.setGeometry(200, 480, 118, 23)
+        self.progressBar.setValue(24)
 
-        self.label_9 = QtWidgets.QLabel(self)
-        self.label_9.setGeometry(QtCore.QRect(110, 380, 55, 16))
-        self.label_9.setObjectName("label_9")
+        form_layout = QFormLayout()
+        form_layout.addRow("Transaction:", self.lineEdit)
+        form_layout.addRow("Account Used:", self.comboBox)
 
-        self.retranslateUi()
 
-    def retranslateUi(self):
-        _translate = QtCore.QCoreApplication.translate
-        self.setWindowTitle(_translate("MoneyScreen", "MoneyScreen"))
-        self.title_label.setText(_translate("MoneyScreen", "Money Tracker"))
-        self.pushButton.setText(_translate("MoneyScreen", "Submit"))
-        self.label.setText(_translate("MoneyScreen", "Transaction:"))
-        self.lineEdit.setPlaceholderText(_translate("MoneyScreen", "enter amount"))
-        self.label_2.setText(_translate("MoneyScreen", "Transaction History"))
-        self.label_3.setText(_translate("MoneyScreen", "Account Used:"))
-        self.comboBox.setItemText(0, _translate("MoneyScreen", "SBI Bank Account"))
-        self.comboBox.setItemText(1, _translate("MoneyScreen", "Wallet"))
-        self.label_4.setText(_translate("MoneyScreen", "Total Money Left:"))
-        self.label_5.setText(_translate("MoneyScreen", "Bank"))
-        self.label_6.setText(_translate("MoneyScreen", "Wallet"))
-        self.label_7.setText(_translate("MoneyScreen", "Target:"))
-        self.pushButton_2.setText(_translate("MoneyScreen", "Change Target"))
-        self.label_8.setText(_translate("MoneyScreen", ": 0"))
-        self.label_9.setText(_translate("MoneyScreen", ": 0"))
+
+if __name__ == "__main__":
+    app = QtWidgets.QApplication(sys.argv) #dont forget to initialize app
+    window = MoneyScreen()
+    window.show()
+    sys.exit(app.exec())

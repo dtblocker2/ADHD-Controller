@@ -30,6 +30,7 @@ class HomeScreen(QWidget):
         for text, icon_path, action in features:
             btn = create_icon_button(icon_path)
             btn.clicked.connect(action)
+            btn.setToolTip(text)
             self.layout.addWidget(btn, alignment=Qt.AlignmentFlag.AlignCenter)
 
     def load_dice_screen(self):
