@@ -5,6 +5,8 @@ from PyQt6.QtCore import QSize, Qt
 from dice_screen import DiceScreen
 from placeholder_screen import PlaceholderScreen
 from money_screen import MoneyScreen
+from notepad_screen import NotepadScreen
+from calender_screen import CalendarScreen
 
 from utils import create_icon_button
 import os
@@ -23,8 +25,8 @@ class HomeScreen(QWidget):
             ("Dice", feature_icon_directory+"dice_icon.png", self.load_dice_screen),
             ("Account", feature_icon_directory+"account_icon.png", self.load_placeholder_screen),
             ("Money", feature_icon_directory+"money_icon.png", self.load_money_screen),
-            ("Calendar", feature_icon_directory+"calendar_icon.png", self.load_placeholder_screen),
-            ("Notepad", feature_icon_directory+"notepad_icon.png", self.load_placeholder_screen)
+            ("Calendar", feature_icon_directory+"calendar_icon.png", self.load_calendar_screen),
+            ("Notepad", feature_icon_directory+"notepad_icon.png", self.load_notepad_screen)
         ]
 
         for text, icon_path, action in features:
@@ -43,7 +45,17 @@ class HomeScreen(QWidget):
         placeholder = PlaceholderScreen(self.main_window)
         self.main_window.main_layout.addWidget(placeholder)
     
+    def load_notepad_screen(self):
+        self.main_window.clear_layout()
+        notepad_screen = NotepadScreen(self.main_window)
+        self.main_window.main_layout.addWidget(notepad_screen)
+    
     def load_money_screen(self):
         self.main_window.clear_layout()
         money_screen = MoneyScreen(self.main_window)
         self.main_window.main_layout.addWidget(money_screen)
+    
+    def load_calendar_screen(self):
+        self.main_window.clear_layout()
+        calendar_screen = CalendarScreen(self.main_window)
+        self.main_window.main_layout.addWidget(calendar_screen)
